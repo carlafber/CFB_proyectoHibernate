@@ -10,6 +10,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="835.0" prefWidth="1220.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyecto_hibernate.controllers.ListaPartesController">
@@ -18,11 +19,11 @@
          <Image url="@../../../img/logo.png" />
       </image>
    </ImageView>
-   <AnchorPane layoutX="255.0" layoutY="44.0" prefHeight="142.0" prefWidth="731.0" style="-fx-background-color: #54c6ff; -fx-background-radius: 15;">
+   <AnchorPane layoutX="255.0" layoutY="44.0" prefHeight="154.0" prefWidth="731.0" style="-fx-background-color: #54c6ff; -fx-background-radius: 15;">
       <children>
-            <TextField fx:id="txt_NumeroExpediente" layoutX="51.0" layoutY="56.0" prefHeight="25.0" prefWidth="562.0" promptText="Buscar por Número de expediente" />
-            <Button fx:id="bt_Buscar" layoutX="612.0" layoutY="56.0" style="-fx-background-color: #289318;" text="Buscar" textFill="WHITE" />
-            <Button fx:id="bt_BuscarFecha" layoutX="562.0" layoutY="89.0" style="-fx-background-color: #289318;" text="Buscar por Fecha" textFill="WHITE" />
+            <TextField fx:id="txt_NumeroExpediente" layoutX="51.0" layoutY="65.0" prefHeight="25.0" prefWidth="562.0" promptText="Buscar por Número de expediente" />
+            <Button fx:id="bt_Buscar" layoutX="612.0" layoutY="65.0" style="-fx-background-color: #289318;" text="Buscar" textFill="WHITE" />
+            <Button fx:id="bt_BuscarFecha" layoutX="543.0" layoutY="108.0" style="-fx-background-color: #289318;" text="Buscar por Fecha" textFill="WHITE" />
       
                  <!-- Título -->
            <Label layoutX="239.0" layoutY="7.0" styleClass="title-label" text="LISTA DE PARTES" textAlignment="CENTER">
@@ -30,8 +31,9 @@
                <Font name="System Bold" size="31.0" />
             </font>
          </Label>
-         <DatePicker fx:id="txt_fecha" layoutX="50.0" layoutY="89.0" prefHeight="25.0" prefWidth="279.0" promptText="dd/mm/aaaa" />
-         <DatePicker fx:id="txt_fecha" layoutX="332.0" layoutY="89.0" prefHeight="25.0" prefWidth="230.0" promptText="dd/mm/aaaa" />
+         <DatePicker fx:id="txt_fecha" layoutX="51.0" layoutY="108.0" prefHeight="31.0" prefWidth="246.0" promptText="dd/mm/aaaa" />
+         <DatePicker fx:id="txt_fecha" layoutX="297.0" layoutY="108.0" prefHeight="31.0" prefWidth="246.0" promptText="dd/mm/aaaa" />
+         <Line endX="463.0" endY="-0.5" layoutX="258.0" layoutY="53.0" startX="-237.0" startY="-0.5" stroke="#4a4a4a" strokeMiterLimit="1.0" strokeWidth="0.5" />
       </children>
    </AnchorPane>
    <AnchorPane layoutX="109.0" layoutY="274.0" prefHeight="526.0" prefWidth="1002.0" style="-fx-background-color: #54c6ff; -fx-background-radius: 15;">
