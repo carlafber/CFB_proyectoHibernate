@@ -17,9 +17,12 @@ public class HibernateUtil {
         cfg.addAnnotatedClass(Alumnos.class);
         cfg.addAnnotatedClass(Grupos.class);
         cfg.addAnnotatedClass(Profesor.class);
+
         System.out.println("conectado hibernate");
+
         factory = cfg.buildSessionFactory();
     }
+
     public static SessionFactory getSessionFactory() {
         return factory;
     }
