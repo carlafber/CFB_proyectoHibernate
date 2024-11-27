@@ -3,7 +3,7 @@ package com.example.proyecto_hibernate.controllers;
 import com.example.proyecto_hibernate.CRUD.ProfesorCRUD;
 import com.example.proyecto_hibernate.classes.Profesor;
 import com.example.proyecto_hibernate.util.Alerta;
-import com.example.proyecto_hibernate.util.ComprobacionesYcambioEscena;
+import com.example.proyecto_hibernate.util.CambioEscena;
 import com.example.proyecto_hibernate.util.GuardarProfesor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,7 +38,7 @@ public class InicioSesionController {
                 if(txt_numero.getText().equals(profe.getNumeroAsignado())){
                     if(pwd_contrasena.getText().equals(profe.getContrasena())) {
                         GuardarProfesor.setProfesor(profe);
-                        ComprobacionesYcambioEscena.abrirEscena("inicio-profesor.fxml", null);
+                        CambioEscena.abrirEscena("inicio-profesor.fxml", null);
                     } else {
                         Alerta.mensajeError("Contrasena incorrecta", "Por favor, introduce la contrasena correcta.");
                     }

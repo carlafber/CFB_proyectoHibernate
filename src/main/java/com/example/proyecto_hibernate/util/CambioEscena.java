@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class ComprobacionesYcambioEscena {
+public class CambioEscena {
 
     //metodo que cambia de escena en el FXML
     public static void cambiarEscena(Button boton, String fxmlFile) {

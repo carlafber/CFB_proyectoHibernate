@@ -1,7 +1,8 @@
 package com.example.proyecto_hibernate.controllers;
 
 import com.example.proyecto_hibernate.classes.TipoProfesor;
-import com.example.proyecto_hibernate.util.ComprobacionesYcambioEscena;
+import com.example.proyecto_hibernate.util.CambioEscena;
+import com.example.proyecto_hibernate.util.GuardarParte;
 import com.example.proyecto_hibernate.util.GuardarProfesor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,22 +34,23 @@ public class InicioProfesorController implements Initializable {
 
     @FXML
     void onCrearParteClick(ActionEvent event) {
-        ComprobacionesYcambioEscena.abrirEscena("parte-verde.fxml", "Crear parte");
+        GuardarParte.resetParte();
+        CambioEscena.abrirEscena("parte-verde.fxml", "Crear parte");
     }
 
     @FXML
     void onCrearProfesorClick(ActionEvent event) {
-        ComprobacionesYcambioEscena.abrirEscena("crear-profesor.fxml", "Crear profesor");
+        CambioEscena.abrirEscena("crear-profesor.fxml", "Crear profesor");
     }
 
     @FXML
     void onListaAlumnosClick(ActionEvent event) {
-        ComprobacionesYcambioEscena.abrirEscena("lista-alumnos.fxml", "Lista alumnos");
+        CambioEscena.abrirEscena("lista-alumnos.fxml", "Lista alumnos");
     }
 
     @FXML
     void onListaPartesClick(ActionEvent event) {
-        ComprobacionesYcambioEscena.abrirEscena("lista-partes.fxml", "Lista partes");
+        CambioEscena.abrirEscena("lista-partes.fxml", "Lista partes");
     }
 
     @Override

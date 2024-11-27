@@ -42,7 +42,7 @@
         <children>
 
             <!-- Tabla -->
-            <TableView fx:id="tv_partes" layoutX="38.0" layoutY="27.0" prefHeight="438.0" prefWidth="927.0" style="-fx-alignment: BASELINE_CENTER;">
+            <TableView fx:id="tv_partes" layoutX="38.0" layoutY="27.0" prefHeight="436.0" prefWidth="927.0" style="-fx-alignment: BASELINE_CENTER;">
                 <columns>
                     <TableColumn fx:id="tc_expediente" prefWidth="116.0" text="Expediente" />
                     <TableColumn fx:id="tc_nombreAlumno" prefWidth="137.0" text="Nombre del &#10;Alumno" />

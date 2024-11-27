@@ -6,6 +6,8 @@ import com.example.proyecto_hibernate.classes.Grupos;
 import com.example.proyecto_hibernate.classes.ParteIncidencia;
 import com.example.proyecto_hibernate.classes.Profesor;
 import com.example.proyecto_hibernate.util.Alerta;
+import com.example.proyecto_hibernate.util.CambioEscena;
+import com.example.proyecto_hibernate.util.GuardarParte;
 import com.example.proyecto_hibernate.util.HibernateUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -87,6 +89,7 @@ public class ListaPartesController implements Initializable {
 
     private Session session;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         session = HibernateUtil.getSessionFactory().openSession();
@@ -117,24 +120,26 @@ public class ListaPartesController implements Initializable {
 
         tc_botones.setCellFactory(column -> new TableCell<>() {
             private final Button bt_verMas = new Button("Ver Más");
+
             {
                 bt_verMas.setOnAction(event -> {
                     ParteIncidencia parte = getTableView().getItems().get(getIndex());
-
-                    System.out.println("Botón clicado para: " + parte);
+                    abrirParte(parte);
+                    System.out.println("Botón clicado para: " + parte.getAlumno().getNombre_alum());
                 });
             }
 
             @Override
             protected void updateItem(Button item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
+                if (empty || getIndex() >= getTableView().getItems().size()) {
+                    setGraphic(null); // Limpia la celda si está vacía
                 } else {
-                    setGraphic(bt_verMas);
+                    setGraphic(bt_verMas); // Añade el botón si la celda contiene datos
                 }
             }
         });
+
 
         ArrayList<ParteIncidencia> listaPartesIncidencia = partesCRUD.getPartes();
         ObservableList<ParteIncidencia> parteIncidenciasObservable = FXCollections.observableArrayList(listaPartesIncidencia);
@@ -154,6 +159,8 @@ public class ListaPartesController implements Initializable {
 
         configurarPaginacion(filteredList);
         pagination.setCurrentPageIndex(0);
+
+        tv_partes.refresh();
     }
 
     @FXML
@@ -199,6 +206,8 @@ public class ListaPartesController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
     @FXML
     void onBuscarFechaClick(ActionEvent event) {
         LocalDate fechaInicio = dt_fechaInicio.getValue();
@@ -251,7 +260,7 @@ public class ListaPartesController implements Initializable {
 
 
     private void configurarPaginacion(ObservableList<ParteIncidencia> listaCompleta) {
-        int filasPorPagina = 5; // Número de filas por página
+        int filasPorPagina = 10; // Número de filas por página
 
         // Configurar el Pagination
         pagination.setPageCount((int) Math.ceil((double) listaCompleta.size() / filasPorPagina));
@@ -274,4 +283,14 @@ public class ListaPartesController implements Initializable {
 
         tv_partes.setItems(paginaActualLista);
     }
+
+    private void abrirParte(ParteIncidencia parte){
+        GuardarParte.setParte(parte);
+        CambioEscena.abrirEscena("parte-verde.fxml", "Ver parte");
+        /*if(color){
+            CambioEscena.abrirEscena("parte-verde.fxml", "Crear parte");
+        }*/
+
+    }
+
 }

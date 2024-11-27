@@ -131,7 +131,7 @@ public class ListaAlumnosController implements Initializable {
 
 
     private void configurarPaginacion(ObservableList<Alumnos> listaCompleta) {
-        int filasPorPagina = 5; // Número de filas por página
+        int filasPorPagina = 6; // Número de filas por página
 
         // Configurar el Pagination
         pagination.setPageCount((int) Math.ceil((double) listaCompleta.size() / filasPorPagina));
