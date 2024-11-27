@@ -125,7 +125,6 @@ public class ListaPartesController implements Initializable {
                 bt_verMas.setOnAction(event -> {
                     ParteIncidencia parte = getTableView().getItems().get(getIndex());
                     abrirParte(parte);
-                    System.out.println("Botón clicado para: " + parte.getAlumno().getNombre_alum());
                 });
             }
 
