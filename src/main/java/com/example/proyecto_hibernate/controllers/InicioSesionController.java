@@ -38,7 +38,6 @@ public class InicioSesionController {
                 if(txt_numero.getText().equals(profe.getNumeroAsignado())){
                     if(pwd_contrasena.getText().equals(profe.getContrasena())) {
                         GuardarProfesor.setProfesor(profe);
-                        System.out.println(GuardarProfesor.getProfesor().toString());
                         ComprobacionesYcambioEscena.abrirEscena("inicio-profesor.fxml", null);
                     } else {
                         Alerta.mensajeError("Contrasena incorrecta", "Por favor, introduce la contrasena correcta.");
