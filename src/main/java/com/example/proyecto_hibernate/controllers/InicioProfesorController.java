@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class InicioJefeEstudiosController implements Initializable {
+public class InicioProfesorController implements Initializable {
 
     @FXML
     private Button bt_crearParte;
