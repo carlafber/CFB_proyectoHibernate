@@ -1,10 +1,7 @@
 package com.example.proyecto_hibernate.controllers;
 
-import com.example.proyecto_hibernate.CRUD.AlumnosCRUD;
 import com.example.proyecto_hibernate.CRUD.ProfesorCRUD;
-import com.example.proyecto_hibernate.classes.Alumnos;
 import com.example.proyecto_hibernate.classes.Profesor;
-import com.example.proyecto_hibernate.classes.TipoProfesor;
 import com.example.proyecto_hibernate.util.Alerta;
 import com.example.proyecto_hibernate.util.ComprobacionesYcambioEscena;
 import com.example.proyecto_hibernate.util.GuardarProfesor;
@@ -14,8 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-
-import java.util.ArrayList;
 
 public class InicioSesionController {
 
@@ -39,21 +34,19 @@ public class InicioSesionController {
         if(txt_numero.getText().isEmpty() || pwd_contrasena.getText().isEmpty()){
             Alerta.mensajeError("Campos vacíos", "Por favor, completa todos los campos.");
         } else {
-            for(Profesor p : profesorCRUD.getProfesores()){
-                if(txt_numero.getText().equals(p.getNumeroAsignado())){
-                    if(pwd_contrasena.getText().equals(p.getContrasena())) {
-                        if(p.getTipo().equals(TipoProfesor.jefe_de_estudios)){
-                            ComprobacionesYcambioEscena.abrirEscena("inicio-jefe-estudios.fxml", "Jefe de estudios");
-                        } else {
-                            ComprobacionesYcambioEscena.abrirEscena("inicio-profesor.fxml", "Profesor");
-                        }
+            for(Profesor profe : profesorCRUD.getProfesores()){
+                if(txt_numero.getText().equals(profe.getNumeroAsignado())){
+                    if(pwd_contrasena.getText().equals(profe.getContrasena())) {
+                        GuardarProfesor.setProfesor(profe);
+                        System.out.println(GuardarProfesor.getProfesor().toString());
+                        ComprobacionesYcambioEscena.abrirEscena("inicio-jefe-estudios.fxml", null);
                     } else {
                         Alerta.mensajeError("Contrasena incorrecta", "Por favor, introduce la contrasena correcta.");
                     }
                     encontrado = true;
-                    GuardarProfesor.setProfesor(p);
                 }
             }
+
             if(!encontrado){
                 Alerta.mensajeError("Profesor no existe", "Por favor, introduce un número de profesor valido.");
             }

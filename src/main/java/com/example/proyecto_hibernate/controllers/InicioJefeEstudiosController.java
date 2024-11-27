@@ -1,31 +1,35 @@
 package com.example.proyecto_hibernate.controllers;
 
+import com.example.proyecto_hibernate.classes.TipoProfesor;
 import com.example.proyecto_hibernate.util.ComprobacionesYcambioEscena;
+import com.example.proyecto_hibernate.util.GuardarProfesor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
-public class InicioJefeEstudiosController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class InicioJefeEstudiosController implements Initializable {
 
     @FXML
-    private MenuItem crear_parte;
+    private Button bt_crearParte;
 
     @FXML
-    private MenuItem crear_profesor;
+    private Button bt_crearProfesor;
+
+    @FXML
+    private Button bt_listaAlumnos;
+
+    @FXML
+    private Button bt_listaPartes;
 
     @FXML
     private ImageView imagen_fondo;
 
-    @FXML
-    private MenuItem lista_alumnos;
-
-    @FXML
-    private MenuItem lista_partes;
-
-    @FXML
-    private MenuBar menu;
+    private TipoProfesor tipoProfesor;
 
     @FXML
     void onCrearParteClick(ActionEvent event) {
@@ -47,5 +51,18 @@ public class InicioJefeEstudiosController {
         ComprobacionesYcambioEscena.abrirEscena("lista-partes.fxml", "Lista partes");
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        tipoProfesor = GuardarProfesor.getProfesor().getTipo();
+        if(tipoProfesor.equals(TipoProfesor.profesor)){
+            deshabilitarBotones();
+        }
+    }
+
+    private void deshabilitarBotones(){
+        bt_listaPartes.setVisible(false);
+        bt_listaAlumnos.setVisible(false);
+        bt_crearProfesor.setVisible(false);
+    }
 }
 

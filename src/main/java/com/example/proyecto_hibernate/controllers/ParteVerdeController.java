@@ -60,6 +60,6 @@ public class ParteVerdeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       nombre_profesor.setText(" " +GuardarProfesor.getProfesor().getNombre());
+       nombre_profesor.setText(" " + GuardarProfesor.getProfesor().getNombre());
     }
 }//class
