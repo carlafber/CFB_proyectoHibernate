@@ -1,11 +1,9 @@
 package com.example.proyecto_hibernate.controllers;
 
-import com.example.proyecto_hibernate.classes.Alumnos;
-import com.example.proyecto_hibernate.CRUD.AlumnosCRUD;
+import com.example.proyecto_hibernate.classes.*;
+import com.example.proyecto_hibernate.CRUD.*;
 
-import com.example.proyecto_hibernate.classes.Grupos;
-import com.example.proyecto_hibernate.util.Alerta;
-import com.example.proyecto_hibernate.util.HibernateUtil;
+import com.example.proyecto_hibernate.util.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -131,7 +129,7 @@ public class ListaAlumnosController implements Initializable {
 
 
     private void configurarPaginacion(ObservableList<Alumnos> listaCompleta) {
-        int filasPorPagina = 6; // Número de filas por página
+        int filasPorPagina = 7; // Número de filas por página
 
         // Configurar el Pagination
         pagination.setPageCount((int) Math.ceil((double) listaCompleta.size() / filasPorPagina));
