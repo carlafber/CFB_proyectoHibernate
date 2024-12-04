@@ -5,10 +5,7 @@ import com.example.proyecto_hibernate.CRUD.PartesCRUD;
 import com.example.proyecto_hibernate.classes.Alumnos;
 import com.example.proyecto_hibernate.classes.ColorParte;
 import com.example.proyecto_hibernate.classes.ParteIncidencia;
-import com.example.proyecto_hibernate.util.Alerta;
-import com.example.proyecto_hibernate.util.CambioEscena;
-import com.example.proyecto_hibernate.util.GuardarParte;
-import com.example.proyecto_hibernate.util.GuardarProfesor;
+import com.example.proyecto_hibernate.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,7 +15,7 @@ import javafx.scene.input.KeyEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ParteNaranjaController implements Initializable {
+public class ParteNaranjaController implements Initializable, Configurable {
 
     @FXML
     private Button bt_crear;
@@ -55,6 +52,8 @@ public class ParteNaranjaController implements Initializable {
     private AlumnosCRUD alumnoCRUD = new AlumnosCRUD();
 
     private Alumnos alumno;
+
+    private Boolean reset = false;
 
     @FXML
     void onCrearClick(ActionEvent event) {
@@ -93,13 +92,13 @@ public class ParteNaranjaController implements Initializable {
 
     @FXML
     void onParteRojoClick(ActionEvent event) {
-        GuardarParte.resetParte();
+        resetParte(reset);
         CambioEscena.cambiarEscena(bt_parteRojo, "parte-rojo.fxml");
     }//onParteRojoClick
 
     @FXML
     void onParteVerdeClick(ActionEvent event) {
-        GuardarParte.resetParte();
+        resetParte(reset);
         CambioEscena.cambiarEscena(bt_parteRojo, "parte-verde.fxml");
     }//onParteVerdeClick
 
@@ -108,7 +107,7 @@ public class ParteNaranjaController implements Initializable {
         cb_horaParte.getItems().addAll(
                 "8:30-9:20",
                 "9:25-10:15",
-                "10:15-11:10",
+                "10:20-11:10",
                 "11:40-12:30",
                 "12:35-13:25",
                 "13:30-14:20",
@@ -137,5 +136,17 @@ public class ParteNaranjaController implements Initializable {
         dp_fechaParte.setValue(null);
         cb_horaParte.setValue(null);
         txt_descripcion.clear();
+    }
+
+    public void configurarBotones(Boolean estado) {// Deshabilita o habilita el botón según el estado.
+        bt_parteVerde.setDisable(estado);
+        bt_parteRojo.setDisable(estado);
+        reset = estado;
+    }
+
+    private void resetParte(Boolean reset) {
+        if(reset){
+            GuardarParte.resetParte();
+        }
     }
 }//class

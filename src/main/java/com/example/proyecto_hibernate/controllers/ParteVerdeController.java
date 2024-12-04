@@ -5,10 +5,8 @@ import com.example.proyecto_hibernate.CRUD.PartesCRUD;
 import com.example.proyecto_hibernate.classes.Alumnos;
 import com.example.proyecto_hibernate.classes.ColorParte;
 import com.example.proyecto_hibernate.classes.ParteIncidencia;
-import com.example.proyecto_hibernate.util.Alerta;
-import com.example.proyecto_hibernate.util.CambioEscena;
-import com.example.proyecto_hibernate.util.GuardarParte;
-import com.example.proyecto_hibernate.util.GuardarProfesor;
+import com.example.proyecto_hibernate.classes.TipoProfesor;
+import com.example.proyecto_hibernate.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,7 +16,7 @@ import javafx.scene.input.KeyEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ParteVerdeController implements Initializable {
+public class ParteVerdeController implements Initializable, Configurable {
 
     @FXML
     private Button bt_crear;
@@ -55,6 +53,8 @@ public class ParteVerdeController implements Initializable {
     private AlumnosCRUD alumnoCRUD = new AlumnosCRUD();
 
     private Alumnos alumno;
+
+    private Boolean reset = false;
 
     @FXML
     void onCrearClick(ActionEvent event) {
@@ -93,22 +93,23 @@ public class ParteVerdeController implements Initializable {
 
     @FXML
     void onParteNaranjaClick(ActionEvent event) {
-        GuardarParte.resetParte();
+        resetParte(reset);
         CambioEscena.cambiarEscena(bt_parteNaranja, "parte-naranja.fxml");
     }//onParteNaranjaClick
 
     @FXML
     void onParteRojoClick(ActionEvent event) {
-        GuardarParte.resetParte();
+        resetParte(reset);
         CambioEscena.cambiarEscena(bt_parteRojo, "parte-rojo.fxml");
     }//onParteRojoClick
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cb_horaParte.getItems().addAll(
-                "8:30-9:20",
-                "9:25-10:15",
-                "10:15-11:10",
+                "08:30-09:20",
+                "09:25-10:15",
+                "10:20-11:10",
                 "11:40-12:30",
                 "12:35-13:25",
                 "13:30-14:20",
@@ -119,16 +120,15 @@ public class ParteVerdeController implements Initializable {
                 "19:50-20:40",
                 "20:45-21:35"
         );
+        nombre_profesor.setText(" " + GuardarProfesor.getProfesor().getNombre());
 
-       nombre_profesor.setText(" " + GuardarProfesor.getProfesor().getNombre());
-
-       if(GuardarParte.getParte() != null){
-           txt_expedienteAlumno.setText(GuardarParte.getParte().getAlumno().getNumero_expediente());
-           grupo_alumno.setText(GuardarParte.getParte().getGrupo().getNombreGrupo());
-           dp_fechaParte.setValue(GuardarParte.getParte().getFecha());
-           cb_horaParte.setValue(GuardarParte.getParte().getHora());
-           txt_descripcion.setText(GuardarParte.getParte().getDescripcion());
-       }
+        if(GuardarParte.getParte() != null){
+            txt_expedienteAlumno.setText(GuardarParte.getParte().getAlumno().getNumero_expediente());
+            grupo_alumno.setText(GuardarParte.getParte().getGrupo().getNombreGrupo());
+            dp_fechaParte.setValue(GuardarParte.getParte().getFecha());
+            cb_horaParte.setValue(GuardarParte.getParte().getHora());
+            txt_descripcion.setText(GuardarParte.getParte().getDescripcion());
+        }
     }
 
     private void limpiarCampos() {
@@ -137,6 +137,18 @@ public class ParteVerdeController implements Initializable {
         dp_fechaParte.setValue(null);
         cb_horaParte.setValue(null);
         txt_descripcion.clear();
+    }
+
+    public void configurarBotones(Boolean estado) {// Deshabilita o habilita el botón según el estado.
+        bt_parteNaranja.setDisable(estado); //true -> deshabilitado
+        bt_parteRojo.setDisable(estado);
+        reset = estado;
+    }
+
+    private void resetParte(Boolean reset) {
+        if(reset){
+            GuardarParte.resetParte();
+        }
     }
 
 }//class

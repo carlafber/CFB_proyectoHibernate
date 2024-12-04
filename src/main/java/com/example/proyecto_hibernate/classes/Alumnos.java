@@ -10,7 +10,7 @@ public class Alumnos {
     private int id_alum;
     private String nombre_alum;
     private String numero_expediente;
-    private int puntos_acumulados;
+    private int puntos_acumulados; //calcular buscando los puntos que vale cada parte que tiene el alumno
 
     @ManyToOne
     @JoinColumn(name = "id_grupo")

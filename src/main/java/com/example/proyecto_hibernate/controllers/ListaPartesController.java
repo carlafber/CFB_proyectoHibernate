@@ -2,10 +2,7 @@ package com.example.proyecto_hibernate.controllers;
 
 import com.example.proyecto_hibernate.CRUD.PartesCRUD;
 import com.example.proyecto_hibernate.classes.*;
-import com.example.proyecto_hibernate.util.Alerta;
-import com.example.proyecto_hibernate.util.CambioEscena;
-import com.example.proyecto_hibernate.util.GuardarParte;
-import com.example.proyecto_hibernate.util.HibernateUtil;
+import com.example.proyecto_hibernate.util.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -85,6 +82,12 @@ public class ListaPartesController implements Initializable {
     private FilteredList<ParteIncidencia> filteredList;
 
     private Session session;
+
+    Configurable ParteVerdeController = new ParteVerdeController();
+
+    Configurable ParteNaranjaController = new ParteNaranjaController();
+
+    Configurable ParteRojoController = new ParteRojoController();
 
 
     @Override
@@ -307,12 +310,13 @@ public class ListaPartesController implements Initializable {
 
     private void abrirParte(ParteIncidencia parte){
         GuardarParte.setParte(parte);
+        boolean estado = GuardarProfesor.getProfesor().getTipo().equals(TipoProfesor.profesor);
         if(parte.getColor().equals(ColorParte.VERDE)){
-            CambioEscena.abrirEscena("parte-verde.fxml", "Ver parte");
+            CambioEscena.abrirEscena("parte-verde.fxml", "Ver parte", ParteVerdeController, estado);
         } else if (parte.getColor().equals(ColorParte.NARANJA)) {
-            CambioEscena.abrirEscena("parte-naranja.fxml", "Ver parte");
+            CambioEscena.abrirEscena("parte-naranja.fxml", "Ver parte", ParteNaranjaController, estado);
         } else if (parte.getColor().equals(ColorParte.ROJO)) {
-            CambioEscena.abrirEscena("parte-rojo.fxml", "Ver parte");
+            CambioEscena.abrirEscena("parte-rojo.fxml", "Ver parte", ParteRojoController, estado);
         }
     }
 
