@@ -37,6 +37,9 @@ public class ParteVerdeController implements Initializable, Configurable {
     private DatePicker dp_fechaParte;
 
     @FXML
+    private TextArea txt_sancion;
+
+    @FXML
     private Label grupo_alumno;
 
     @FXML
@@ -57,13 +60,17 @@ public class ParteVerdeController implements Initializable, Configurable {
     private Boolean reset = false;
 
     @FXML
+    void onActualizarClick(ActionEvent event) {
+
+    }
+
+    @FXML
     void onCrearClick(ActionEvent event) {
-        if (txt_expedienteAlumno.getText().isEmpty() || dp_fechaParte.getValue() == null || txt_descripcion.getText().isEmpty() || cb_horaParte.getValue().isEmpty()){
+        if (txt_expedienteAlumno.getText().isEmpty() || dp_fechaParte.getValue() == null || txt_descripcion.getText().isEmpty() || cb_horaParte.getValue().isEmpty() || txt_sancion.getText().isEmpty()){
             Alerta.mensajeError("Campos vacíos", "Por favor, completa todos los campos.");
         } else { //si todos los campos están correctos -> creo el parte y lo introduzco en la BD
-            ParteIncidencia parte = new ParteIncidencia(alumno, GuardarProfesor.getProfesor(), alumno.getGrupo(), dp_fechaParte.getValue(), cb_horaParte.getValue(), txt_descripcion.getText(), "sancion", ColorParte.VERDE);
+            ParteIncidencia parte = new ParteIncidencia(alumno, GuardarProfesor.getProfesor(), alumno.getGrupo(), dp_fechaParte.getValue(), cb_horaParte.getValue(), txt_descripcion.getText(), txt_sancion.getText(), ColorParte.VERDE);
             //puntuacion falta
-            //sancion hacer
             parteCRUD.crearParte(parte);
             Alerta.mensajeInfo("ÉXITO", "Parte creado", "El parte ha sido creado correctamente.");
             limpiarCampos();
@@ -120,7 +127,8 @@ public class ParteVerdeController implements Initializable, Configurable {
                 "19:50-20:40",
                 "20:45-21:35"
         );
-        nombre_profesor.setText(" " + GuardarProfesor.getProfesor().getNombre());
+
+        nombre_profesor.setText(GuardarProfesor.getProfesor().getNombre());
 
         if(GuardarParte.getParte() != null){
             txt_expedienteAlumno.setText(GuardarParte.getParte().getAlumno().getNumero_expediente());
@@ -128,6 +136,7 @@ public class ParteVerdeController implements Initializable, Configurable {
             dp_fechaParte.setValue(GuardarParte.getParte().getFecha());
             cb_horaParte.setValue(GuardarParte.getParte().getHora());
             txt_descripcion.setText(GuardarParte.getParte().getDescripcion());
+            txt_sancion.setText(GuardarParte.getParte().getSancion());
         }
     }
 
@@ -137,11 +146,13 @@ public class ParteVerdeController implements Initializable, Configurable {
         dp_fechaParte.setValue(null);
         cb_horaParte.setValue(null);
         txt_descripcion.clear();
+        txt_sancion.setText("");
     }
 
     public void configurarBotones(Boolean estado) {// Deshabilita o habilita el botón según el estado.
         bt_parteNaranja.setDisable(estado); //true -> deshabilitado
         bt_parteRojo.setDisable(estado);
+        bt_crear.setDisable(!estado);
         reset = estado;
     }
 

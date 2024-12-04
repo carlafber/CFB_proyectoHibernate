@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ParteRojoController implements Initializable, Configurable {
@@ -33,7 +35,13 @@ public class ParteRojoController implements Initializable, Configurable {
     private ComboBox<String> cb_horaParte;
 
     @FXML
+    private ComboBox<String> cb_sancion;
+
+    @FXML
     private DatePicker dp_fechaParte;
+
+    @FXML
+    private TextArea txt_sancion;
 
     @FXML
     private Label grupo_alumno;
@@ -55,14 +63,32 @@ public class ParteRojoController implements Initializable, Configurable {
 
     private Boolean reset = false;
 
+    private List<String> sanciones = new ArrayList<>();
+
+    @FXML
+    void onActualizarClick(ActionEvent event) {
+
+    }
+
     @FXML
     void onCrearClick(ActionEvent event) {
-        if (txt_expedienteAlumno.getText().isEmpty() || dp_fechaParte.getValue() == null || txt_descripcion.getText().isEmpty() || cb_horaParte.getValue().isEmpty()){
+        if (txt_expedienteAlumno.getText().isEmpty() || dp_fechaParte.getValue() == null || txt_descripcion.getText().isEmpty() || cb_horaParte.getValue() == null || cb_sancion.getValue().isEmpty()){
             Alerta.mensajeError("Campos vacíos", "Por favor, completa todos los campos.");
+            if(cb_sancion.getValue().equals("Otra:")){
+                if(txt_sancion.getText().isEmpty()){
+                    Alerta.mensajeError("Campos vacíos", "Por favor, completa todos los campos.");
+                }
+            }
         } else { //si todos los campos están correctos -> creo el parte y lo introduzco en la BD
-            ParteIncidencia parte = new ParteIncidencia(alumno, GuardarProfesor.getProfesor(), alumno.getGrupo(), dp_fechaParte.getValue(), cb_horaParte.getValue(), txt_descripcion.getText(), "sancion", ColorParte.ROJO);
+            String sancion = "";
+            if (cb_sancion.getValue().equals("Otra:")) {
+                sancion = txt_sancion.getText();
+            } else {
+                sancion = cb_sancion.getValue();
+            }
+
+            ParteIncidencia parte = new ParteIncidencia(alumno, GuardarProfesor.getProfesor(), alumno.getGrupo(), dp_fechaParte.getValue(), cb_horaParte.getValue(), txt_descripcion.getText(), sancion, ColorParte.ROJO);
             //puntuacion falta
-            //sancion hacer
             parteCRUD.crearParte(parte);
             Alerta.mensajeInfo("ÉXITO", "Parte creado", "El parte ha sido creado correctamente.");
             limpiarCampos();
@@ -102,6 +128,21 @@ public class ParteRojoController implements Initializable, Configurable {
         CambioEscena.cambiarEscena(bt_parteRojo, "parte-verde.fxml");
     }//onParteVerdeClick
 
+
+    //validación de lo que se selecciona en el comboBox del tipo de sanción recibida
+    @FXML
+    void onSancionChangeOtro(ActionEvent event) {
+        String tipoSancion = cb_sancion.getValue();
+
+        if (tipoSancion != null && tipoSancion.equals("Otra:")) {
+            //si el valor es "Otro", mostramos el TextField
+            txt_sancion.setVisible(true);
+        } else {
+            //si no es "otro" la opción seleccioanda, el TextField se mantiene oculto
+            txt_sancion.setVisible(false);
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cb_horaParte.getItems().addAll(
@@ -119,7 +160,18 @@ public class ParteRojoController implements Initializable, Configurable {
                 "20:45-21:35"
         );
 
-        nombre_profesor.setText(" " + GuardarProfesor.getProfesor().getNombre());
+        sanciones = List.of(
+                "Incoación de expediente o en su caso expediente abreviado",
+                "Reunión con la Comisión de Convivencia",
+                "Es obligatorio pedir disculpas a la persona/as contra las que\nejerció daño físico o moral, y/o reparar los daños materiales causados",
+                "Otra:"
+        );
+
+        cb_sancion.getItems().addAll(sanciones);
+
+        nombre_profesor.setText(GuardarProfesor.getProfesor().getNombre());
+
+        txt_sancion.setVisible(false);
 
         if(GuardarParte.getParte() != null){
             txt_expedienteAlumno.setText(GuardarParte.getParte().getAlumno().getNumero_expediente());
@@ -127,6 +179,13 @@ public class ParteRojoController implements Initializable, Configurable {
             dp_fechaParte.setValue(GuardarParte.getParte().getFecha());
             cb_horaParte.setValue(GuardarParte.getParte().getHora());
             txt_descripcion.setText(GuardarParte.getParte().getDescripcion());
+            if (comprobarSancion(GuardarParte.getParte().getSancion())) {
+                txt_sancion.setVisible(true);
+                cb_sancion.setValue("Otra:");
+                txt_sancion.setText(GuardarParte.getParte().getSancion());
+            } else {
+                cb_sancion.setValue(GuardarParte.getParte().getSancion());
+            }
         }
     }
 
@@ -136,11 +195,23 @@ public class ParteRojoController implements Initializable, Configurable {
         dp_fechaParte.setValue(null);
         cb_horaParte.setValue(null);
         txt_descripcion.clear();
+        cb_sancion.setValue(null);
+        txt_sancion.setText("");
+    }
+
+    public boolean comprobarSancion(String sancion){
+        for (String s : sanciones) {
+            if (sancion.contains(s)) {
+                return false; // Contiene al menos una de las cadenas
+            }
+        }
+        return true; // No contiene ninguna de las cadenas
     }
 
     public void configurarBotones(Boolean estado) {// Deshabilita o habilita el botón según el estado.
         bt_parteVerde.setDisable(estado);
         bt_parteNaranja.setDisable(estado);
+        bt_crear.setDisable(!estado);
         reset = estado;
     }
 
