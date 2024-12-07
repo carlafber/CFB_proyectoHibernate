@@ -18,6 +18,9 @@ import java.util.ResourceBundle;
 public class ParteNaranjaController implements Initializable, Configurable {
 
     @FXML
+    private Button bt_actualizar;
+
+    @FXML
     private Button bt_crear;
 
     @FXML
@@ -69,6 +72,7 @@ public class ParteNaranjaController implements Initializable, Configurable {
             Alerta.mensajeError("Campos vacíos", "Por favor, completa todos los campos.");
         } else { //si todos los campos están correctos -> creo el parte y lo introduzco en la BD
             ParteIncidencia parte = new ParteIncidencia(alumno, GuardarProfesor.getProfesor(), alumno.getGrupo(), dp_fechaParte.getValue(), cb_horaParte.getValue(), txt_descripcion.getText(), txt_sancion.getText(), ColorParte.NARANJA);
+            alumnoCRUD.actualizarPuntosAlumno(alumno, parte);
             //puntuacion falta
             parteCRUD.crearParte(parte);
             Alerta.mensajeInfo("ÉXITO", "Parte creado", "El parte ha sido creado correctamente.");
@@ -137,6 +141,8 @@ public class ParteNaranjaController implements Initializable, Configurable {
             txt_descripcion.setText(GuardarParte.getParte().getDescripcion());
             txt_sancion.setText(GuardarParte.getParte().getSancion());
         }
+
+        bt_actualizar.setDisable(true);
     }
 
     private void limpiarCampos() {
@@ -152,6 +158,7 @@ public class ParteNaranjaController implements Initializable, Configurable {
         bt_parteVerde.setDisable(estado);
         bt_parteRojo.setDisable(estado);
         bt_crear.setDisable(!estado);
+        bt_actualizar.setDisable(estado);
         reset = estado;
     }
 

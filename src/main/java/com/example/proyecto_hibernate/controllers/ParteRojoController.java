@@ -16,8 +16,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.util.Callback;
 
 public class ParteRojoController implements Initializable, Configurable {
+
+    @FXML
+    private Button bt_actualizar;
 
     @FXML
     private Button bt_crear;
@@ -88,6 +92,7 @@ public class ParteRojoController implements Initializable, Configurable {
             }
 
             ParteIncidencia parte = new ParteIncidencia(alumno, GuardarProfesor.getProfesor(), alumno.getGrupo(), dp_fechaParte.getValue(), cb_horaParte.getValue(), txt_descripcion.getText(), sancion, ColorParte.ROJO);
+            alumnoCRUD.actualizarPuntosAlumno(alumno, parte);
             //puntuacion falta
             parteCRUD.crearParte(parte);
             Alerta.mensajeInfo("ÉXITO", "Parte creado", "El parte ha sido creado correctamente.");
@@ -163,11 +168,33 @@ public class ParteRojoController implements Initializable, Configurable {
         sanciones = List.of(
                 "Incoación de expediente o en su caso expediente abreviado",
                 "Reunión con la Comisión de Convivencia",
-                "Es obligatorio pedir disculpas a la persona/as contra las que\nejerció daño físico o moral, y/o reparar los daños materiales causados",
+                "Es obligatorio pedir disculpas a la persona/as contra las que ejerció daño físico o moral, y/o reparar los daños materiales causados",
                 "Otra:"
         );
 
         cb_sancion.getItems().addAll(sanciones);
+
+        // Establecer la fábrica de celdas para el ComboBox para que los elementos largos se desplieguen en varias líneas
+        cb_sancion.setCellFactory(new Callback<>() {
+            @Override
+            public ListCell<String> call(ListView<String> listView) {
+                return new ListCell<>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            // Crear un Label para cada celda
+                            Label label = new Label(item);
+                            label.setWrapText(true);  // Habilitar el salto de línea
+                            label.setMaxWidth(400);   // Ajustar el ancho máximo
+                            setGraphic(label);        // Establecer el Label como gráfico de la celda
+                        } else {
+                            setGraphic(null);  // Si la celda está vacía, no mostrar nada
+                        }
+                    }
+                };
+            }
+        });
 
         nombre_profesor.setText(GuardarProfesor.getProfesor().getNombre());
 
@@ -187,6 +214,8 @@ public class ParteRojoController implements Initializable, Configurable {
                 cb_sancion.setValue(GuardarParte.getParte().getSancion());
             }
         }
+
+        bt_actualizar.setDisable(true);
     }
 
     private void limpiarCampos() {
@@ -212,6 +241,7 @@ public class ParteRojoController implements Initializable, Configurable {
         bt_parteVerde.setDisable(estado);
         bt_parteNaranja.setDisable(estado);
         bt_crear.setDisable(!estado);
+        bt_actualizar.setDisable(estado);
         reset = estado;
     }
 
