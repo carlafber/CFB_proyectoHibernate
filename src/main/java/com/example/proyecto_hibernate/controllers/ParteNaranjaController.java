@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -61,9 +62,30 @@ public class ParteNaranjaController implements Initializable, Configurable {
 
     private Boolean reset = false;
 
+    private ListaPartesController listaPartesController;
+
     @FXML
     void onActualizarClick(ActionEvent event) {
+        ParteIncidencia parte = GuardarParte.getParte();
+        parte.setFecha(dp_fechaParte.getValue());
+        parte.setHora(cb_horaParte.getValue());
+        parte.setDescripcion(txt_descripcion.getText());
+        parte.setSancion(txt_sancion.getText());
+        parte.setColor(ColorParte.NARANJA);
+        parte.setPuntos_parte(parte.getColor().getPuntos());
 
+        if(parteCRUD.actualizarParte(parte)){
+            Alerta.mensajeInfo("ÉXITO", null,"Parte actualizado correctamente.");
+            // Cerrar la ventana actual
+            Stage stage = (Stage) bt_actualizar.getScene().getWindow();
+            stage.close();
+
+            setListaPartesController(listaPartesController);
+            // Notificar a la lista de partes para que se recargue
+            listaPartesController.recargarListaPartes();
+        } else {
+            Alerta.mensajeError(null, "No se pudo actualizar el parte.");
+        }
     }
 
     @FXML
@@ -142,7 +164,8 @@ public class ParteNaranjaController implements Initializable, Configurable {
             txt_sancion.setText(GuardarParte.getParte().getSancion());
         }
 
-        bt_actualizar.setDisable(true);
+        bt_actualizar.setDisable(reset);
+        bt_crear.setDisable(!reset);
     }
 
     private void limpiarCampos() {
@@ -154,12 +177,18 @@ public class ParteNaranjaController implements Initializable, Configurable {
         txt_sancion.setText("");
     }
 
+    @Override
     public void configurarBotones(Boolean estado) {// Deshabilita o habilita el botón según el estado.
         bt_parteVerde.setDisable(estado);
         bt_parteRojo.setDisable(estado);
         bt_crear.setDisable(!estado);
         bt_actualizar.setDisable(estado);
         reset = estado;
+    }
+
+    @Override
+    public void setListaPartesController(ListaPartesController listaPartesController) {
+        this.listaPartesController = GuardarController.getController();
     }
 
     private void resetParte(Boolean reset) {

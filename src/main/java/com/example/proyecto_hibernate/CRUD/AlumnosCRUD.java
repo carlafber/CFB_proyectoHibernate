@@ -55,7 +55,6 @@ public class AlumnosCRUD {
         Transaction transaction = null;
         try(Session session = factory.openSession()) {
             transaction = session.beginTransaction();
-            //Alumnos alumnoExistente = session.get(Alumnos.class, alumno.getId_alum());
             // Sumar los puntos del parte al alumno
             if (alumno != null) {
                 int nuevosPuntos = alumno.getPuntos_acumulados() + parte.getPuntos_parte();

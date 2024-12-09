@@ -16,6 +16,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class ParteRojoController implements Initializable, Configurable {
@@ -69,9 +71,34 @@ public class ParteRojoController implements Initializable, Configurable {
 
     private List<String> sanciones = new ArrayList<>();
 
+    private ListaPartesController listaPartesController;
+
     @FXML
     void onActualizarClick(ActionEvent event) {
+        ParteIncidencia parte = GuardarParte.getParte();
+        parte.setFecha(dp_fechaParte.getValue());
+        parte.setHora(cb_horaParte.getValue());
+        parte.setDescripcion(txt_descripcion.getText());
+        if (cb_sancion.getValue().equals("Otra:")) {
+            parte.setSancion(txt_sancion.getText());
+        } else {
+            parte.setSancion(cb_sancion.getValue());
+        }
+        parte.setColor(ColorParte.ROJO);
+        parte.setPuntos_parte(parte.getColor().getPuntos());
 
+        if(parteCRUD.actualizarParte(parte)){
+            Alerta.mensajeInfo("ÉXITO", null,"Parte actualizado correctamente.");
+            // Cerrar la ventana actual
+            Stage stage = (Stage) bt_actualizar.getScene().getWindow();
+            stage.close();
+
+            setListaPartesController(listaPartesController);
+            // Notificar a la lista de partes para que se recargue
+            listaPartesController.recargarListaPartes();
+        } else {
+            Alerta.mensajeError(null, "No se pudo actualizar el parte.");
+        }
     }
 
     @FXML
@@ -93,7 +120,6 @@ public class ParteRojoController implements Initializable, Configurable {
 
             ParteIncidencia parte = new ParteIncidencia(alumno, GuardarProfesor.getProfesor(), alumno.getGrupo(), dp_fechaParte.getValue(), cb_horaParte.getValue(), txt_descripcion.getText(), sancion, ColorParte.ROJO);
             alumnoCRUD.actualizarPuntosAlumno(alumno, parte);
-            //puntuacion falta
             parteCRUD.crearParte(parte);
             Alerta.mensajeInfo("ÉXITO", "Parte creado", "El parte ha sido creado correctamente.");
             limpiarCampos();
@@ -215,7 +241,8 @@ public class ParteRojoController implements Initializable, Configurable {
             }
         }
 
-        bt_actualizar.setDisable(true);
+        bt_actualizar.setDisable(reset);
+        bt_crear.setDisable(!reset);
     }
 
     private void limpiarCampos() {
@@ -237,12 +264,18 @@ public class ParteRojoController implements Initializable, Configurable {
         return true; // No contiene ninguna de las cadenas
     }
 
+    @Override
     public void configurarBotones(Boolean estado) {// Deshabilita o habilita el botón según el estado.
         bt_parteVerde.setDisable(estado);
         bt_parteNaranja.setDisable(estado);
         bt_crear.setDisable(!estado);
         bt_actualizar.setDisable(estado);
         reset = estado;
+    }
+
+    @Override
+    public void setListaPartesController(ListaPartesController listaPartesController) {
+        this.listaPartesController = GuardarController.getController();
     }
 
     private void resetParte(Boolean reset) {

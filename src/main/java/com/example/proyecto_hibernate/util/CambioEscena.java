@@ -1,6 +1,7 @@
 package com.example.proyecto_hibernate.util;
 
 import com.example.proyecto_hibernate.GestionPartesApplication;
+import com.example.proyecto_hibernate.controllers.ListaPartesController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,7 +30,6 @@ public class CambioEscena {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(GestionPartesApplication.class.getResource(fxmlFile)); //carga el archivo FXML
             Parent root = fxmlLoader.load(); //carga el archivo FXML
-            Object controller = fxmlLoader.getController(); //obtener el controller
 
             Scene scene = new Scene(root);
             Stage stage = new Stage();
