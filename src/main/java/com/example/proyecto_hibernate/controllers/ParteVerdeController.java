@@ -167,9 +167,6 @@ public class ParteVerdeController implements Initializable, Configurable {
             txt_descripcion.setText(GuardarParte.getParte().getDescripcion());
             txt_sancion.setText(GuardarParte.getParte().getSancion());
         }
-
-        bt_actualizar.setDisable(reset);
-        bt_crear.setDisable(!reset);
     }
 
 

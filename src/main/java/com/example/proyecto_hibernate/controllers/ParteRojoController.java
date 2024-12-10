@@ -245,9 +245,6 @@ public class ParteRojoController implements Initializable, Configurable {
                 cb_sancion.setValue(GuardarParte.getParte().getSancion());
             }
         }
-
-        bt_actualizar.setDisable(reset);
-        bt_crear.setDisable(!reset);
     }
 
 
