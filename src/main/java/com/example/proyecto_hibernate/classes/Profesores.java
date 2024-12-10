@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "profesores")
-public class Profesor {
+public class Profesores {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +25,10 @@ public class Profesor {
     private TipoProfesor tipo;
 
 
-    public Profesor() {
+    public Profesores() {
     }
 
-    public Profesor(String contrasena, String nombre, String numero_asignado, TipoProfesor tipo) {
+    public Profesores(String contrasena, String nombre, String numero_asignado, TipoProfesor tipo) {
         this.contrasena = contrasena;
         this.nombre = nombre;
         this.numero_asignado = numero_asignado;

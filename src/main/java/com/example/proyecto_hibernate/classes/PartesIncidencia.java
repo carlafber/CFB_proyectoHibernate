@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "partes_incidencia")
-public class ParteIncidencia {
+public class PartesIncidencia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class ParteIncidencia {
 
     @ManyToOne
     @JoinColumn(name = "id_profesor")
-    private Profesor profesor;
+    private Profesores profesores;
 
     @Column(name = "descripcion")
     private String descripcion;
@@ -44,12 +44,12 @@ public class ParteIncidencia {
     private int puntos_parte;
 
 
-    public ParteIncidencia() {
+    public PartesIncidencia() {
     }
 
-    public ParteIncidencia(Alumnos alumno, Profesor profesor, Grupos grupo, LocalDate fecha, String hora, String descripcion, String sancion, ColorParte color) {
+    public PartesIncidencia(Alumnos alumno, Profesores profesores, Grupos grupo, LocalDate fecha, String hora, String descripcion, String sancion, ColorParte color) {
         this.alumno = alumno;
-        this.profesor = profesor;
+        this.profesores = profesores;
         this.grupo = grupo;
         this.fecha = fecha;
         this.hora = hora;
@@ -84,12 +84,12 @@ public class ParteIncidencia {
         this.grupo = grupo;
     }
 
-    public Profesor getProfesor() {
-        return profesor;
+    public Profesores getProfesor() {
+        return profesores;
     }
 
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
+    public void setProfesor(Profesores profesores) {
+        this.profesores = profesores;
     }
 
     public String getDescripcion() {
