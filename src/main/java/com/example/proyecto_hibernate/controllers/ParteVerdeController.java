@@ -97,9 +97,11 @@ public class ParteVerdeController implements Initializable, Configurable {
         } else { //si todos los campos están correctos -> creo el parte y lo introduzco en la BD
             PartesIncidencia parte = new PartesIncidencia(alumno, GuardarProfesor.getProfesor(), alumno.getGrupo(), dp_fechaParte.getValue(), cb_horaParte.getValue(), txt_descripcion.getText(), txt_sancion.getText(), ColorParte.VERDE);
             alumnoCRUD.actualizarPuntosAlumno(alumno, parte, true);
-            //puntuacion falta
-            parteCRUD.crearParte(parte);
-            Alerta.mensajeInfo("ÉXITO", "Parte creado", "El parte ha sido creado correctamente.");
+            if(parteCRUD.crearParte(parte)){
+                Alerta.mensajeInfo("ÉXITO", "Parte creado", "El parte ha sido creado correctamente.");
+            } else {
+                Alerta.mensajeError("Error al crear el parte", "El parte duplicado.");
+            }
             limpiarCampos();
         }
     }

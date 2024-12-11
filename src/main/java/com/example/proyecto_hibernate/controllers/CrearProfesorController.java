@@ -1,6 +1,6 @@
 package com.example.proyecto_hibernate.controllers;
 
-import com.example.proyecto_hibernate.CRUD.ProfesorCRUD;
+import com.example.proyecto_hibernate.CRUD.ProfesoresCRUD;
 import com.example.proyecto_hibernate.classes.Profesores;
 import com.example.proyecto_hibernate.classes.TipoProfesor;
 import com.example.proyecto_hibernate.util.Alerta;
@@ -36,7 +36,7 @@ public class CrearProfesorController implements Initializable {
     @FXML
     private TextField txt_numero;
 
-    private ProfesorCRUD profesorCRUD = new ProfesorCRUD();
+    private ProfesoresCRUD profesoresCRUD = new ProfesoresCRUD();
 
     @FXML
     void onCrearClick(ActionEvent event) {
@@ -51,7 +51,7 @@ public class CrearProfesorController implements Initializable {
                 tipo = TipoProfesor.jefe_de_estudios;
             }
             Profesores profesor = new Profesores(pwd_contrasena.getText(), txt_nombre.getText(), txt_numero.getText(), tipo);
-            if(profesorCRUD.crearProfesor(profesor)){
+            if(profesoresCRUD.crearProfesor(profesor)){
                 Alerta.mensajeInfo("ÉXITO", "Profesor creado", "El profesor ha sido creado correctamente.");
             } else {
                 Alerta.mensajeError("Profesor duplicado", "No puede haber dos profesores con el mismo número asignado.");

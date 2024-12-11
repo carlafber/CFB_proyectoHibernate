@@ -1,6 +1,6 @@
 package com.example.proyecto_hibernate.controllers;
 
-import com.example.proyecto_hibernate.CRUD.ProfesorCRUD;
+import com.example.proyecto_hibernate.CRUD.ProfesoresCRUD;
 import com.example.proyecto_hibernate.classes.Profesores;
 import com.example.proyecto_hibernate.util.Alerta;
 import com.example.proyecto_hibernate.util.CambioEscena;
@@ -37,7 +37,7 @@ public class InicioSesionController implements Initializable {
     @FXML
     private TextField txt_numero;
 
-    private ProfesorCRUD profesorCRUD = new ProfesorCRUD();
+    private ProfesoresCRUD profesoresCRUD = new ProfesoresCRUD();
 
     @FXML
     void onIniciarSesionClick(ActionEvent event) {
@@ -45,7 +45,7 @@ public class InicioSesionController implements Initializable {
         if(txt_numero.getText().isEmpty() || pwd_contrasena.getText().isEmpty()){
             Alerta.mensajeError("Campos vacíos", "Por favor, completa todos los campos.");
         } else {
-            for(Profesores profe : profesorCRUD.obtenerProfesores()){
+            for(Profesores profe : profesoresCRUD.obtenerProfesores()){
                 if(txt_numero.getText().equals(profe.getNumero_asignado())){
                     if(pwd_contrasena.getText().equals(profe.getContrasena())) {
                         GuardarProfesor.setProfesor(profe);

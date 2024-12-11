@@ -122,8 +122,11 @@ public class ParteRojoController implements Initializable, Configurable {
 
             PartesIncidencia parte = new PartesIncidencia(alumno, GuardarProfesor.getProfesor(), alumno.getGrupo(), dp_fechaParte.getValue(), cb_horaParte.getValue(), txt_descripcion.getText(), sancion, ColorParte.ROJO);
             alumnoCRUD.actualizarPuntosAlumno(alumno, parte, true);
-            parteCRUD.crearParte(parte);
-            Alerta.mensajeInfo("ÉXITO", "Parte creado", "El parte ha sido creado correctamente.");
+            if(parteCRUD.crearParte(parte)){
+                Alerta.mensajeInfo("ÉXITO", "Parte creado", "El parte ha sido creado correctamente.");
+            } else {
+                Alerta.mensajeError("Error al crear el parte", "El parte duplicado.");
+            }
             limpiarCampos();
         }
     }
