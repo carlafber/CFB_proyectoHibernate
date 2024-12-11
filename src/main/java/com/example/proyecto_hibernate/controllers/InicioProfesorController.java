@@ -63,17 +63,21 @@ public class InicioProfesorController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //adaptar la imagen al tamaño de la pantalla
         imagen_fondo.fitWidthProperty().bind(fondo.widthProperty());
         imagen_fondo.fitHeightProperty().bind(fondo.heightProperty());
 
+        //obtener el tipo de profesor a través de los datos que se almacenaron al iniciar sesión
         tipoProfesor = GuardarProfesor.getProfesor().getTipo();
         if(tipoProfesor.equals(TipoProfesor.profesor)){
-            deshabilitarBotones();
+            //al ser profesor, no tiene acceso a la mayoria de métodos, por lo que se ocultan
+            ocultarBotones();
         }
     }
 
 
-    private void deshabilitarBotones(){
+    //método para ocultar los botones
+    private void ocultarBotones(){
         bt_listaPartes.setVisible(false);
         bt_listaAlumnos.setVisible(false);
         bt_crearProfesor.setVisible(false);

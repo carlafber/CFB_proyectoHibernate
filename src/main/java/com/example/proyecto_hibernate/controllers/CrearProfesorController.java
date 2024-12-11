@@ -39,6 +39,7 @@ public class CrearProfesorController implements Initializable {
     private ProfesoresCRUD profesoresCRUD = new ProfesoresCRUD();
 
     @FXML
+    //método para crear profesor
     void onCrearClick(ActionEvent event) {
         TipoProfesor tipo = null;
         boolean creado = false; //¿?
@@ -73,6 +74,7 @@ public class CrearProfesorController implements Initializable {
     }
 
 
+    //método para limpiar los campos que contienen valores
     private void limpiarCampos() {
         txt_nombre.clear();
         txt_numero.clear();

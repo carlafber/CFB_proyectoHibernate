@@ -68,6 +68,7 @@ public class InicioSesionController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //adaptar la imagen al tamaño de la pantalla
         imagen_fondo.fitWidthProperty().bind(fondo.widthProperty());
         imagen_fondo.fitHeightProperty().bind(fondo.heightProperty());
     }
